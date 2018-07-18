@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../blocs/weatherbloc.dart';
 import '../models/weathermodel.dart';
+import '../providers/localizationservice.dart';
 import '../providers/weatherprovider.dart';
 import '../widgets/refreshwidget.dart';
 import '../widgets/weathertile.dart';
@@ -14,42 +15,42 @@ class WeatherPage extends StatelessWidget {
     bloc.fetchT4GWeatherLocations();
     return Scaffold(
       appBar: AppBar(
-        title: Text('T4G Weather'),
+        title: Text(LocalizationsProvider.of(context).title),
         actions: <Widget>[
           InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: StreamBuilder(
-                stream: bloc.isCelsius,
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  if (!snapshot.hasData) {
-                    return SvgPicture.asset(
-                      'assets/svg/wi-celsius.svg',
-                      color: Colors.white,
-                      height: 50.0,
-                      width: 50.0,
-                    );
-                  }
-                  if (snapshot.data) {
-                    return SvgPicture.asset(
-                      'assets/svg/wi-celsius.svg',
-                      color: Colors.white,
-                      height: 50.0,
-                      width: 50.0,
-                    );
-                  } else {
-                    return SvgPicture.asset(
-                      'assets/svg/wi-fahrenheit.svg',
-                      color: Colors.white,
-                      height: 50.0,
-                      width: 50.0,
-                    );
-                  }
-                },
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: StreamBuilder(
+                  stream: bloc.isCelsius,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    if (!snapshot.hasData) {
+                      return SvgPicture.asset(
+                        'assets/svg/wi-celsius.svg',
+                        color: Colors.white,
+                        height: 50.0,
+                        width: 50.0,
+                      );
+                    }
+                    if (snapshot.data) {
+                      return SvgPicture.asset(
+                        'assets/svg/wi-celsius.svg',
+                        color: Colors.white,
+                        height: 50.0,
+                        width: 50.0,
+                      );
+                    } else {
+                      return SvgPicture.asset(
+                        'assets/svg/wi-fahrenheit.svg',
+                        color: Colors.white,
+                        height: 50.0,
+                        width: 50.0,
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-            onTap: bloc.toggleCelsius
-          ),
+              onTap: bloc.toggleCelsius),
           InkWell(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
