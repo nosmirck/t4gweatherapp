@@ -11,9 +11,9 @@ import '../repositories/weatherrepository.dart';
 class WeatherBloc {
   bool _isCelsius = true;
 
-  final _weatherRepository = WeatherRepository();
-  final _locationService = LocationService();
-  SharedPreferences _sharedPrefs;
+  WeatherRepository weatherRepository = WeatherRepository();
+  LocationService locationService = LocationService();
+  SharedPreferences sharedPrefs;
 
   final _locationTracker = PublishSubject<bool>();
   final _isCelsiusSubject = PublishSubject<bool>();
@@ -26,15 +26,23 @@ class WeatherBloc {
     //Initialization of the User's preference for Temperature Meassure (C or F)
     SharedPreferences.getInstance().then(
       (instance) {
-        _sharedPrefs = instance;
-        _isCelsius = _sharedPrefs.getBool('isCelsius') ?? true;
+        sharedPrefs = instance;
+        _isCelsius = sharedPrefs.getBool('isCelsius') ?? true;
         _isCelsiusSubject.sink.add(_isCelsius);
       },
     );
     _weatherItemsFetcher.stream
         .transform(_weatherItemsTransformer())
         .pipe(_weatherItemsOutput);
-    _locationService.isLocationAvailable().then(_locationTracker.sink.add);
+    locationService.isLocationAvailable().then(_locationTracker.sink.add);
+  }
+  WeatherBloc.forTest(
+    this.sharedPrefs,
+    this.locationService,
+    this.weatherRepository,
+  ) {
+    _isCelsiusSubject.sink.add(true);
+    _locationTracker.sink.add(false);
   }
 
   Function(MapEntry<String, Coord>) get fetchWeather =>
@@ -49,9 +57,9 @@ class WeatherBloc {
 
   //Toggles Location Tracking to display current user's location's weather
   Future toggleLocationTracking() async {
-    var isAvailable = await _locationService.isLocationAvailable();
+    var isAvailable = await locationService.isLocationAvailable();
     if (!isAvailable) {
-      isAvailable = await _locationService.getLocationPermission();
+      isAvailable = await locationService.getLocationPermission();
     }
     _locationTracker.sink.add(isAvailable);
     if (isAvailable) {
@@ -63,22 +71,22 @@ class WeatherBloc {
   Future toggleCelsius() async {
     _isCelsius = !_isCelsius;
     //Whenever the Temperature Meassure is changed, we save to shared prefs
-    await _sharedPrefs.setBool('isCelsius', _isCelsius);
+    await sharedPrefs.setBool('isCelsius', _isCelsius);
     _isCelsiusSubject.sink.add(_isCelsius);
   }
 
   //Refreshes the Temperature format (C or F) before building the Item (for first time load)
-  Future tempFormat() async {
+  Future<Null> tempFormat() async {
     await _isCelsiusSubject.sink.add(_isCelsius);
   }
 
-  Future fetchT4GWeatherLocations() async {
+  Future<Null> fetchT4GWeatherLocations() async {
     //TODO: Have a Locations Repository to fetch from the internet in case there are new locations
     var locations = new Map<String, Coord>();
-    if (await _locationService.isLocationAvailable()) {
-      final loc = await _locationService.getLastKnownLocation();
+    if (await locationService.isLocationAvailable()) {
+      final loc = await locationService.getLastKnownLocation();
       if (loc != null) {
-        locations['current'] = Coord(loc.latitude, loc.longitude);
+        locations['current'] = loc;
       }
     }
     locations.addAll(T4GLocationCoordinates);
@@ -89,7 +97,7 @@ class WeatherBloc {
     return ScanStreamTransformer(
       (Map<String, Future<WeatherModel>> cache,
           MapEntry<String, Coord> location, index) {
-        cache[location.key] = _weatherRepository.fetchWeatherForLocation(
+        cache[location.key] = weatherRepository.fetchWeatherForLocation(
             location.key, location.value);
         return cache;
       },

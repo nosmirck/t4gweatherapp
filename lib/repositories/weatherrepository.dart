@@ -4,11 +4,7 @@ import '../client/weatherapi.dart';
 import '../models/weathermodel.dart';
 
 class WeatherRepository {
-  WeatherApi _apiProvider;
-
-  WeatherRepository() {
-    _apiProvider = new WeatherApi();
-  }
+  final _apiProvider = WeatherApi();
 
   Future<WeatherModel> fetchWeatherForLocation(
       String locationId, Coord coords) async {

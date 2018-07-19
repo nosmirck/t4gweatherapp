@@ -17,7 +17,7 @@ class WeatherApi {
       throw Exception(
           "Error on Location provided. Check that <param>location</param> is not null");
     }
-    final lang = LocalizationService.locale.languageCode ?? 'en';
+    final lang = LocalizationService.locale?.languageCode ?? 'en';
     final response = await client.get(url +
         'lat=${location.lat}&lon=${location.lon}&appid=${API_KEY}&lang=$lang');
 
