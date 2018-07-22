@@ -8,5 +8,17 @@ image: atlassian/default-image:2
 pipelines:
   default:
     - step:
+        caches:
+          - gradle
+          - gradlewrapper
+          - flutter
         script:
-          - echo "Everything is awesome!"
+          - echo "Building APK..."
+          - flutter upgrade
+          - flutter doctor
+          - flutter -v build apk
+
+definitions:
+  caches:
+    gradlewrapper: ~/.gradle/wrapper
+    flutter: /opt/flutter
