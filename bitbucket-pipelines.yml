@@ -13,9 +13,8 @@ pipelines:
           - gradlewrapper
           - flutter
         script:
-          - echo "Building APK..."
+          - echo "Tests Running"
           - flutter test
-          - flutter -v build apk
 
 definitions:
   caches:
