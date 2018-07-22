@@ -14,8 +14,7 @@ pipelines:
           - flutter
         script:
           - echo "Building APK..."
-          - flutter upgrade
-          - flutter doctor
+          - flutter test
           - flutter -v build apk
 
 definitions:
