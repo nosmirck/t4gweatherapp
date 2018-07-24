@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:t4g_weather/constants/weathericonsmap.dart';
-
-import '../models/weathermodel.dart';
-import '../providers/weatherprovider.dart';
-import '../utils/converters.dart';
+import 'package:t4g_weather/constants/weather_icons_map.dart';
+import 'package:t4g_weather/models/weather_model.dart';
+import 'package:t4g_weather/providers/weather_provider.dart';
+import 'package:t4g_weather/utils/converters.dart';
 
 class WeatherTile extends StatelessWidget {
   final MapEntry<String, Coord> weatherId;
@@ -22,9 +21,7 @@ class WeatherTile extends StatelessWidget {
       builder:
           (context, AsyncSnapshot<Map<String, Future<WeatherModel>>> snapshot) {
         if (snapshot.hasError) {
-          return tileIndex == 0
-              ? _buildErrorTile(snapshot.error)
-              : Container();
+          return tileIndex == 0 ? _buildErrorTile(snapshot.error) : Container();
         }
         if (!snapshot.hasData) {
           return _buildLoadingTile();
@@ -46,55 +43,16 @@ class WeatherTile extends StatelessWidget {
     );
   }
 
-  Widget _buildWeatherCard(BuildContext context, WeatherModel weatherInfo) {
-    final bloc = WeatherProvider.of(context);
-    String dn = weatherInfo.weather.first.icon.contains('d') ? 'day' : 'night';
-    String iconName = iconMap['owm-$dn-${weatherInfo.weather.first.id}'];
-    bloc.tempFormat();
+  Widget _buildErrorTile(error) {
     return Container(
       padding: EdgeInsets.all(8.0),
       child: ListTile(
-        title: weatherId.key == 'current'
-            ? Text('${weatherInfo.name.toUpperCase()}')
-            : Text('${weatherId.key.toUpperCase()}'),
-        subtitle:
-            Text('${weatherInfo.weather.first.description.toUpperCase()}'),
-        leading: Container(
-          padding: EdgeInsets.all(4.0),
-          child: SizedBox(
-            height: 50.0,
-            width: 50.0,
-            child: SvgPicture.asset(
-              'assets/svg/wi-$iconName.svg',
-              color: Colors.blueAccent,
-            ),
-          ),
+        leading: Icon(
+          Icons.error,
+          color: Colors.redAccent,
         ),
-        trailing: StreamBuilder(
-          stream: bloc.isCelsius,
-          builder: (BuildContext contex, AsyncSnapshot<bool> snapshot) {
-            int temp, min, max;
-            //This probably can be changed to a better approach using higher operators
-            if (!snapshot.hasData || snapshot.data) {
-              temp = kelvinToCelsius(weatherInfo.main.temp);
-              min = kelvinToCelsius(weatherInfo.main.tempMin);
-              max = kelvinToCelsius(weatherInfo.main.tempMax);
-            } else {
-              temp = kelvinToFahrenheit(weatherInfo.main.temp);
-              min = kelvinToFahrenheit(weatherInfo.main.tempMin);
-              max = kelvinToFahrenheit(weatherInfo.main.tempMax);
-            }
-            return Column(
-              children: <Widget>[
-                Text(
-                  '$temp°',
-                  style: TextStyle(fontSize: 30.0),
-                ),
-                Text('min: $min° max: $max°'),
-              ],
-            );
-          },
-        ),
+        title: Text('Oops! There was an error...'),
+        subtitle: Text('$error'),
       ),
     );
   }
@@ -154,16 +112,55 @@ class WeatherTile extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorTile(error) {
+  Widget _buildWeatherCard(BuildContext context, WeatherModel weatherInfo) {
+    final bloc = WeatherProvider.of(context);
+    String dn = weatherInfo.weather.first.icon.contains('d') ? 'day' : 'night';
+    String iconName = iconMap['owm-$dn-${weatherInfo.weather.first.id}'];
+    bloc.tempFormat();
     return Container(
       padding: EdgeInsets.all(8.0),
       child: ListTile(
-        leading: Icon(
-          Icons.error,
-          color: Colors.redAccent,
+        title: weatherId.key == 'current'
+            ? Text('${weatherInfo.name.toUpperCase()}')
+            : Text('${weatherId.key.toUpperCase()}'),
+        subtitle:
+            Text('${weatherInfo.weather.first.description.toUpperCase()}'),
+        leading: Container(
+          padding: EdgeInsets.all(4.0),
+          child: SizedBox(
+            height: 50.0,
+            width: 50.0,
+            child: SvgPicture.asset(
+              'assets/svg/wi-$iconName.svg',
+              color: Colors.blueAccent,
+            ),
+          ),
         ),
-        title: Text('Oops! There was an error...'),
-        subtitle: Text('$error'),
+        trailing: StreamBuilder(
+          stream: bloc.isCelsius,
+          builder: (BuildContext contex, AsyncSnapshot<bool> snapshot) {
+            int temp, min, max;
+            //This probably can be changed to a better approach using higher operators
+            if (!snapshot.hasData || snapshot.data) {
+              temp = kelvinToCelsius(weatherInfo.main.temp);
+              min = kelvinToCelsius(weatherInfo.main.tempMin);
+              max = kelvinToCelsius(weatherInfo.main.tempMax);
+            } else {
+              temp = kelvinToFahrenheit(weatherInfo.main.temp);
+              min = kelvinToFahrenheit(weatherInfo.main.tempMin);
+              max = kelvinToFahrenheit(weatherInfo.main.tempMax);
+            }
+            return Column(
+              children: <Widget>[
+                Text(
+                  '$temp°',
+                  style: TextStyle(fontSize: 30.0),
+                ),
+                Text('min: $min° max: $max°'),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

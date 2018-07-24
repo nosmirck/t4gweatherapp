@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart'; 
 
-part 'weathermodel.g.dart'; 
+part 'weather_model.g.dart'; 
 
 @JsonSerializable()
 class Coord extends Object with _$CoordSerializerMixin {

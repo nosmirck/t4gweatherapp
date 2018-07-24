@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:t4g_weather/models/weathermodel.dart';
-import 'package:t4g_weather/services/locationservice.dart';
+import 'package:t4g_weather/models/weather_model.dart';
+import 'package:t4g_weather/services/location_service.dart';
 
 void main() {
   group(
     'LocationService Tests',
     () {
-      final _locationService = MockLocationService();
+      final _locationService = MockitoLocationService();
 
       test(
         'isLocationAvailable() - Case: Success',
@@ -57,4 +57,4 @@ void main() {
   );
 }
 
-class MockLocationService extends Mock implements LocationService {}
+class MockitoLocationService extends Mock implements LocationService {}

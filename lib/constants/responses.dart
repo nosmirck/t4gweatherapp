@@ -1,4 +1,4 @@
-const jsonResponse = '''{
+const weatherJsonResponse = '''{
     "coord": {
         "lon": -79.39,
         "lat": 43.65

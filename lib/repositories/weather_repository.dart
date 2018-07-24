@@ -1,15 +1,18 @@
 import 'dart:async';
 
-import '../client/weatherapi.dart';
-import '../models/weathermodel.dart';
+import 'package:t4g_weather/client/weather_api.dart';
+import 'package:t4g_weather/models/weather_model.dart';
+import 'package:t4g_weather/service_locator.dart';
 
 class WeatherRepository {
-  final _apiProvider = WeatherApi();
+  final WeatherApi _api;
+
+  WeatherRepository() : _api = ServiceLocator.get<WeatherApi>();
 
   Future<WeatherModel> fetchWeatherForLocation(
       String locationId, Coord coords) async {
     //TODO: Check for connectivity first, if there's no connection We'll fetch from DB, otherwise, we'll attempt to get from API
-    final weather = await _apiProvider.fetchWeatherForLocation(coords);
+    final weather = await _api.fetchWeatherForLocation(coords);
 
     _updateWeatherForLocation(locationId, coords, weather);
 

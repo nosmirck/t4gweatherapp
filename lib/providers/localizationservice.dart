@@ -3,34 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 import 'package:flutter/material.dart';
 
-class LocalizationService {
-  static Locale locale;
-}
-
-class LocalizationsProvider {
-  final Locale locale;
-
-  LocalizationsProvider(this.locale);
-
-  static LocalizationsProvider of(BuildContext context) {
-    return Localizations.of<LocalizationsProvider>(
-        context, LocalizationsProvider);
-  }
-
-  static Map<String, Map<String, String>> _localizedValues = {
-    'en': {
-      'title': 'T4G Weather',
-    },
-    'fr': {
-      'title': 'T4G Météo',
-    },
-  };
-
-  String get title {
-    return _localizedValues[locale.languageCode]['title'];
-  }
-}
-
 class AppLocalizationsDelegate
     extends LocalizationsDelegate<LocalizationsProvider> {
   const AppLocalizationsDelegate();
@@ -47,4 +19,32 @@ class AppLocalizationsDelegate
 
   @override
   bool shouldReload(AppLocalizationsDelegate old) => false;
+}
+
+class LocalizationService {
+  static Locale locale;
+}
+
+class LocalizationsProvider {
+  static Map<String, Map<String, String>> _localizedValues = {
+    'en': {
+      'title': 'T4G Weather',
+    },
+    'fr': {
+      'title': 'T4G Météo',
+    },
+  };
+
+  final Locale locale;
+
+  LocalizationsProvider(this.locale);
+
+  String get title {
+    return _localizedValues[locale.languageCode]['title'];
+  }
+
+  static LocalizationsProvider of(BuildContext context) {
+    return Localizations.of<LocalizationsProvider>(
+        context, LocalizationsProvider);
+  }
 }

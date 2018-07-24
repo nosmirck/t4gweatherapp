@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../blocs/weatherbloc.dart';
-
-export '../blocs/weatherbloc.dart';
+import 'package:t4g_weather/blocs/weather_bloc.dart';
 
 class WeatherProvider extends InheritedWidget {
   final WeatherBloc bloc;

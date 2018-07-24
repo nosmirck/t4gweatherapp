@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:t4g_weather/models/weathermodel.dart';
-import 'package:t4g_weather/repositories/weatherrepository.dart';
-
-import '../consts.dart';
+import 'package:t4g_weather/constants/responses.dart';
+import 'package:t4g_weather/models/weather_model.dart';
+import 'package:t4g_weather/repositories/weather_repository.dart';
 
 void main() {
   group(
@@ -23,7 +22,8 @@ void main() {
             ),
           ).thenAnswer(
             (_) {
-              final response = WeatherModel.fromJson(json.decode(jsonResponse));
+              final response =
+                  WeatherModel.fromJson(json.decode(weatherJsonResponse));
               return Future.value(response);
             },
           );

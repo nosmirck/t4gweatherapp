@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../blocs/weatherbloc.dart';
-import '../models/weathermodel.dart';
-import '../providers/localizationservice.dart';
-import '../providers/weatherprovider.dart';
-import '../widgets/refreshwidget.dart';
-import '../widgets/weathertile.dart';
+import 'package:t4g_weather/blocs/weather_bloc.dart';
+import 'package:t4g_weather/models/weather_model.dart';
+import 'package:t4g_weather/providers/localizationservice.dart';
+import 'package:t4g_weather/providers/weather_provider.dart';
+import 'package:t4g_weather/widgets/refresh_widget.dart';
+import 'package:t4g_weather/widgets/weather_tile.dart';
 
 class WeatherPage extends StatelessWidget {
   @override

@@ -1,30 +1,43 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
+import 'package:http/testing.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:t4g_weather/blocs/weatherbloc.dart';
-
-import '../repositories/weatherrepository_test.dart';
-import '../services/locationservice_test.dart';
+import 'package:t4g_weather/blocs/weather_bloc.dart';
+import 'package:t4g_weather/client/mocked/mock_weather_api_impl.dart';
+import 'package:t4g_weather/client/weather_api.dart';
+import 'package:t4g_weather/constants/responses.dart';
+import 'package:t4g_weather/service_locator.dart';
+import 'package:t4g_weather/services/location_service.dart';
+import 'package:t4g_weather/services/mocked/mock_location_service_impl.dart';
 
 void main() {
+  final _mockSharedPrefs = MockSharedPreferences();
+  setUpAll(
+    () {
+      ServiceLocator.reset();
+      when(_mockSharedPrefs.getBool(typed(any))).thenReturn(true);
+      when(_mockSharedPrefs.setBool(typed(any), typed(any)))
+          .thenAnswer((_) => Future<bool>.value(true));
+      ServiceLocator.registerSingleton<SharedPreferences>(_mockSharedPrefs);
+      ServiceLocator.registerSingleton<LocationService>(MockLocationService());
+      ServiceLocator.registerSingleton<WeatherApi>(
+        MockWeatherApi(
+          MockClient(
+            (request) async => await Response(weatherJsonResponse, 200),
+          ),
+          "",
+        ),
+      );
+    },
+  );
   group(
     'WeatherBloc Tests',
     () {
-      final _bloc = WeatherBloc.forTest(
-        MockSharedPreferences(),
-        MockLocationService(),
-        MockWeatherRepository(),
-      );
-
       test(
         'fetchT4GWeatherLocations() - Case: Success',
         () async {
-          when(_bloc.sharedPrefs.getBool(typed(any)))
-              .thenAnswer((_) => Future.value(true));
-          when(_bloc.sharedPrefs.setBool(typed(any), typed(any)))
-              .thenAnswer((_) => Future.value(true));
-          when(_bloc.locationService.isLocationAvailable())
-              .thenAnswer((_) => Future.value(false));
+          final _bloc = WeatherBloc();
           _bloc.fetchT4GWeatherLocations();
 
           //Tests for Stream are complicated

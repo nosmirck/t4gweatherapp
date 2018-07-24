@@ -1,4 +1,4 @@
-import 'package:t4g_weather/models/weathermodel.dart';
+import 'package:t4g_weather/models/weather_model.dart';
 
 Map<String, Coord> T4GLocationCoordinates = {
   't4g halifax': Coord(44.662259, -63.610533),

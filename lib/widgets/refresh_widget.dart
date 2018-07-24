@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../providers/weatherprovider.dart';
+import '../providers/weather_provider.dart';
 
 class Refresh extends StatelessWidget {
   final Widget child;

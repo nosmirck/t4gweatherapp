@@ -1,1 +1,1 @@
-const API_KEY = 'OWM_API_KEY';
+const API_KEY = "OWM_API_KEY";
