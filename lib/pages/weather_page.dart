@@ -17,6 +17,7 @@ class WeatherPage extends StatelessWidget {
         title: Text(LocalizationsProvider.of(context).title),
         actions: <Widget>[
           InkWell(
+              key: Key('TemperatureIcon'),
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: StreamBuilder(
@@ -25,7 +26,7 @@ class WeatherPage extends StatelessWidget {
                       (BuildContext context, AsyncSnapshot<bool> snapshot) {
                     if (!snapshot.hasData) {
                       return SvgPicture.asset(
-                        'assets/svg/wi-celsius.svg',
+                        'assets/svg/wi-thermometer.svg',
                         color: Colors.white,
                         height: 50.0,
                         width: 50.0,
@@ -51,6 +52,7 @@ class WeatherPage extends StatelessWidget {
               ),
               onTap: bloc.toggleCelsius),
           InkWell(
+            key: Key('GpsIcon'),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(

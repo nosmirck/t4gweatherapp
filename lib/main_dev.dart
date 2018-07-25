@@ -19,6 +19,7 @@ main() async {
 }
 
 registerDependencies() async {
+  ServiceLocator.reset();
   final _mockSharedPrefs = MockSharedPreferences();
 
   when(_mockSharedPrefs.getBool(typed(any))).thenReturn(true);
