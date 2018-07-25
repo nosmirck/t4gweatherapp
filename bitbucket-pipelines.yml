@@ -10,7 +10,8 @@ pipelines:
         script:
           - echo "Tests Running"
           - flutter test
-          - flutter -v build apk 
+          # Enable when build is possible
+          #- flutter -v build apk 
 
 definitions:
   caches:

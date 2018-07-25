@@ -10,6 +10,7 @@ jobs:
       - run:
           name: Run Tests
           command: flutter test 
-      - run:
-          name: Build APK
-          command: flutter -v build apk
+      # Enable when build is possible.
+      # - run: 
+      #     name: Build APK
+      #     command: flutter -v build apk
