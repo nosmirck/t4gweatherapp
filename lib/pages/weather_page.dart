@@ -17,7 +17,7 @@ class WeatherPage extends StatelessWidget {
         title: Text(LocalizationsProvider.of(context).title),
         actions: <Widget>[
           InkWell(
-              key: Key('TemperatureIcon'),
+              key: Key('temp-scale-button'),
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: StreamBuilder(
@@ -30,6 +30,7 @@ class WeatherPage extends StatelessWidget {
                         color: Colors.white,
                         height: 50.0,
                         width: 50.0,
+                        key: Key('thermometer-icon'),
                       );
                     }
                     if (snapshot.data) {
@@ -38,6 +39,7 @@ class WeatherPage extends StatelessWidget {
                         color: Colors.white,
                         height: 50.0,
                         width: 50.0,
+                        key: Key('celsius-icon'),
                       );
                     } else {
                       return SvgPicture.asset(
@@ -45,6 +47,7 @@ class WeatherPage extends StatelessWidget {
                         color: Colors.white,
                         height: 50.0,
                         width: 50.0,
+                        key: Key('fahrenheit-icon'),
                       );
                     }
                   },
@@ -52,18 +55,27 @@ class WeatherPage extends StatelessWidget {
               ),
               onTap: bloc.toggleCelsius),
           InkWell(
-            key: Key('GpsIcon'),
+            key: Key('gps-track-button'),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
                 stream: bloc.locationTracker,
                 builder: (context, AsyncSnapshot<bool> snapshot) {
                   if (!snapshot.hasData) {
-                    return Icon(Icons.gps_off);
+                    return Icon(
+                      Icons.gps_off,
+                      key: Key('gps-off-icon'),
+                    );
                   }
                   return snapshot.data
-                      ? Icon(Icons.gps_fixed)
-                      : Icon(Icons.gps_off);
+                      ? Icon(
+                          Icons.gps_fixed,
+                          key: Key('gps-fixed-icon'),
+                        )
+                      : Icon(
+                          Icons.gps_off,
+                          key: Key('gps-off-icon'),
+                        );
                 },
               ),
             ),

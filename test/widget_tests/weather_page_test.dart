@@ -34,19 +34,19 @@ void main() {
           await tester.pumpAndSettle(Duration(seconds: 5));
           // Expect to all elements of the AppBar
           expect(find.text('T4G Weather'), findsOneWidget);
-          expect(find.byKey(Key('TemperatureIcon')), findsOneWidget);
-          expect(find.byKey(Key('GpsIcon')), findsOneWidget);
+          expect(find.byKey(Key('temp-scale-button')), findsOneWidget);
+          expect(find.byKey(Key('gps-track-button')), findsOneWidget);
           // Expect to show at least one WeaterTile
           expect(find.byType(WeatherTile), findsWidgets);
           // Expect Temperature in Celsius
           expect(find.text('$tempInCelsius°'), findsWidgets);
           // Tap Temperature Icon and expect to change the temperature to Fahrenheit
-          await tester.tap(find.byKey(Key('TemperatureIcon')));
+          await tester.tap(find.byKey(Key('temp-scale-button')));
           await tester.pump();
 
           expect(find.text('$tempInFahrenheit°'), findsWidgets);
           // Tap Temperature Icon again and expect to change the temperature to Celsius
-          await tester.tap(find.byKey(Key('TemperatureIcon')));
+          await tester.tap(find.byKey(Key('temp-scale-button')));
           await tester.pump();
           expect(find.text('$tempInCelsius°'), findsWidgets);
         },
@@ -62,8 +62,8 @@ void main() {
           await tester.pumpAndSettle(Duration(seconds: 5));
           // Expect to all elements of the AppBar
           expect(find.text('T4G Weather'), findsOneWidget);
-          expect(find.byKey(Key('TemperatureIcon')), findsOneWidget);
-          expect(find.byKey(Key('GpsIcon')), findsOneWidget);
+          expect(find.byKey(Key('temp-scale-button')), findsOneWidget);
+          expect(find.byKey(Key('gps-track-button')), findsOneWidget);
 
           // Expect to show at least one WeaterTile
           expect(find.byType(WeatherTile), findsWidgets);
