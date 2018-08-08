@@ -36,7 +36,7 @@ registerDependencies() async {
   ServiceLocator.registerSingleton<WeatherApi>(
     MockWeatherApi(
       MockClient(
-        (request) async => await Response(weatherJsonResponse, 200),
+        (request) async => Response(weatherJsonResponse, 200),
       ),
       "",
     ),

@@ -43,7 +43,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) {
-              WeatherModel nullWeather = null;
+              WeatherModel nullWeather;
               return Future.value(nullWeather);
             },
           );

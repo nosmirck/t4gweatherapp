@@ -3,9 +3,9 @@ import 'package:t4g_weather/models/weather_model.dart';
 import 'package:t4g_weather/services/location_service.dart';
 
 class MockLocationService implements LocationService {
-  final _permission;
+  final permission;
 
-  MockLocationService() : _permission = null;
+  MockLocationService() : permission = null;
 
   Future<bool> isLocationAvailable() async {
     return true;

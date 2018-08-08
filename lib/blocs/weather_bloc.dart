@@ -65,13 +65,13 @@ class WeatherBloc {
         locations['current'] = loc;
       }
     }
-    locations.addAll(T4GLocationCoordinates);
+    locations.addAll(t4GLocationCoordinates);
     _weatherLocationIds.sink.add(locations);
   }
 
   //Refreshes the Temperature format (C or F) before building the Item (for first time load)
-  Future<Null> tempFormat() async {
-    await _isCelsiusSubject.sink.add(_isCelsius);
+  tempFormat() {
+    _isCelsiusSubject.sink.add(_isCelsius);
   }
 
   Future toggleCelsius() async {

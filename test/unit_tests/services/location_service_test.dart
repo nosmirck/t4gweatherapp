@@ -45,7 +45,7 @@ void main() {
         () async {
           when(_locationService.getLastKnownLocation()).thenAnswer(
             (_) {
-              Coord nullCoord = null;
+              Coord nullCoord;
               return Future.value(nullCoord);
             },
           );

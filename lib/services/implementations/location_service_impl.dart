@@ -5,10 +5,10 @@ import 'package:t4g_weather/models/weather_model.dart';
 import 'package:t4g_weather/services/location_service.dart';
 
 class LocationServiceImpl implements LocationService {
-  final LocationPermission _permission;
+  final LocationPermission permission;
 
   LocationServiceImpl()
-      : _permission = LocationPermission(
+      : permission = LocationPermission(
             android: LocationPermissionAndroid.fine,
             ios: LocationPermissionIOS.whenInUse) {
     // Enable this during DEBUG
@@ -17,7 +17,7 @@ class LocationServiceImpl implements LocationService {
 
   Future<Coord> getLastKnownLocation() async {
     final currentLocation =
-        await Geolocation.lastKnownLocation(permission: _permission);
+        await Geolocation.lastKnownLocation(permission: permission);
 
     return currentLocation.error != null
         ? null
@@ -26,14 +26,14 @@ class LocationServiceImpl implements LocationService {
   }
 
   Future<bool> getLocationPermission() async {
-    final loc = await Geolocation.lastKnownLocation(permission: _permission);
+    final loc = await Geolocation.lastKnownLocation(permission: permission);
 
     return loc.isSuccessful;
   }
 
   Future<bool> isLocationAvailable() async {
     final result =
-        await Geolocation.isLocationOperational(permission: _permission);
+        await Geolocation.isLocationOperational(permission: permission);
 
     return result.isSuccessful;
   }

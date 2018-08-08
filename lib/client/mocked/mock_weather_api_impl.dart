@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:http/testing.dart' show MockClient;
 import 'package:t4g_weather/client/weather_api.dart';
-import 'package:t4g_weather/constants/apikey.dart';
 import 'package:t4g_weather/models/weather_model.dart';
 
 class MockWeatherApi implements WeatherApi {
