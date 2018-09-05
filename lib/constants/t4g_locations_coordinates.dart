@@ -7,3 +7,12 @@ final t4GLocationCoordinates = {
   't4g moncton': Coord(46.085154, -64.786940),
   't4g vancouver': Coord(49.284270, -123.117860),
 };
+
+final t4GLocationImageName = {
+  'current': "toronto",
+  't4g halifax': "halifax",
+  't4g toronto': "toronto",
+  't4g saint john': "stjohn",
+  't4g moncton': "moncton",
+  't4g vancouver': "vancouver",
+};

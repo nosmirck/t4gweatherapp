@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:t4g_weather/pages/weather_page_cards.dart';
 import 'package:t4g_weather/providers/localizationservice.dart';
 
-import 'pages/weather_page.dart';
 import 'providers/weather_provider.dart';
 
 class App extends StatelessWidget {
@@ -21,7 +21,7 @@ class App extends StatelessWidget {
         Locale('fr', ''),
       ],
       home: WeatherProvider(
-        child: WeatherPage(),
+        child: WeatherPageCards(),
       ),
     );
   }
